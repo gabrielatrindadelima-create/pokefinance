@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f0fa">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="PokéFinance">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <title>PokéFinance Kawaii 🌸⚡</title>
+  <style>
+    :root {
+      --bg-color: #f7f0fa;
+      --card-bg: #ffffff;
+      --primary-purple: #e8dff5;
+      --primary-pink: #fce1e4;
+      --accent-yellow: #fcf4dd;
+      --accent-green: #ddedea;
+      --accent-blue: #daeaf6;
+      --text-main: #5a4b5c;
+      --text-muted: #8c7a8e;
+      --border-radius: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      padding-bottom: 80px;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary-pink), var(--primary-purple));
+      padding: 20px;
+      border-bottom-left-radius: var(--border-radius);
+      border-bottom-right-radius: var(--border-radius);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      color: #6c4b7e;
+    }
+
+    .banner-kawaii {
+      background: white;
+      margin: 15px auto -30px auto;
+      padding: 12px 20px;
+      border-radius: 15px;
+      width: 90%;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .banner-kawaii .sprite {
+      font-size: 2.2rem;
+    }
+
+    .banner-kawaii p {
+      font-size: 0.85rem;
+      color: var(--text-main);
+    }
+
+    .container {
+      padding: 40px 20px 20px 20px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .card {
+      background: var(--card-bg);
+      padding: 18px;
+      border-radius: var(--border-radius);
+      margin-bottom: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+      border: 2px solid #f3e8f4;
+    }
+
+    .card h3 {
+      font-size: 1rem;
+      margin-bottom: 10px;
+      color: #6c4b7e;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .balance-val {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #4a3850;
+    }
+
+    .badge-va {
+      background-color: var(--primary-pink);
+      color: #9c4153;
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 10px;
+    }
+
+    .grid-shortcuts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .btn-shortcut {
+      background: var(--card-bg);
+      border: 2px solid var(--primary-purple);
+      padding: 12px 5px;
+      border-radius: 15px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+
+    .btn-shortcut:active {
+      transform: scale(0.95);
+    }
+
+    .btn-shortcut span {
+      display: block;
+      font-size: 1.3rem;
+      margin-bottom: 4px;
+    }
+
+    .btn-shortcut label {
+      font-size: 0.75rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      margin-bottom: 4px;
+      font-weight: bold;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid var(--primary-purple);
+      border-radius: 12px;
+      outline: none;
+      font-size: 0.9rem;
+      background: #faf8fc;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #fbcfe8, #e9d5ff);
+      border: none;
+      padding: 12px;
+      border-radius: 12px;
+      color: #582767;
+      font-weight: bold;
+      font-size: 0.95rem;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+
+    .nav-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      border-top: 2px solid var(--primary-purple);
+      box-shadow: 0 -4px 10px rgba(0,0,0,0.03);
+    }
+
+    .nav-item {
+      text-align: center;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+    }
+
+    .nav-item.active {
+      color: #8b5cf6;
+      font-weight: bold;
+    }
+
+    .nav-item span {
+      font-size: 1.3rem;
+      display: block;
+    }
+
+    .list-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px dashed #eee;
+      font-size: 0.85rem;
+    }
+
+    .progress-bar {
+      height: 12px;
+      background: #f0e6f5;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #fbcfe8, #c084fc);
+      width: 0%;
+      transition: width 0.3s;
+    }
+
+    .chk-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>PokéFinance Kawaii 🌸⚡</h1>
+  </header>
+
+  <div class="banner-kawaii">
+    <div class="sprite">⚡</div>
+    <p id="pikachu-msg">Pika-pika! Vamos cuidar do teu orçamento juntos hoje! ✨</p>
+  </div>
+
+  <div class="container">
+
+    <!-- DASHBOARD -->
+    <div id="tab-dashboard" class="tab-content active">
+      <div class="card" style="background: var(--accent-yellow);">
+        <h3>💵 Saldo Livre (Bancário) <span>⚡</span></h3>
+        <div class="balance-val" id="disp-saldo-livre">R$ 0,00</div>
+        <small style="font-size: 0.75rem; color: #786438;">(Salário + Bolsa - Despesas)</small>
+      </div>
+
+      <div class="card" style="background: var(--primary-pink);">
+        <h3>🍱 Saldo VA (Alimentação) <span class="badge-va">Separado</span></h3>
+        <div class="balance-val" id="disp-saldo-va">R$ 0,00</div>
+        <small style="font-size: 0.75rem; color: #8a4351;">Não misturado com o saldo bancário</small>
+      </div>
+
+      <div class="grid-shortcuts">
+        <div class="btn-shortcut" onclick="switchTab('transacoes')">
+          <span>💸</span>
+          <label>+ Gasto</label>
+        </div>
+        <div class="btn-shortcut" onclick="switchTab('transacoes')">
+          <span>💰</span>
+          <label>+ Receita</label>
+        </div>
+        <div class="btn-shortcut" onclick="switchTab('mercado')">
+          <span>🛒</span>
+          <label>Mercado</label>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📊 Orçamento Lazer & Compras</h3>
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+          <span>Gasto: <b id="disp-lazer-gasto">R$ 0,00</b></span>
+          <span>Limite: <b>R$ 849,00</b></span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="prog-lazer"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🐷 Reserva Financeira <span>💤</span></h3>
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+          <span>Guardado: <b id="disp-reserva">R$ 0,00</b></span>
+          <span>Meta/mês: <b>R$ 400,00</b></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRANSAÇÕES -->
+    <div id="tab-transacoes" class="tab-content">
+      <div class="card">
+        <h3>➕ Nova Transação</h3>
+        <form id="form-transacao">
+          <div class="form-group">
+            <label>Tipo</label>
+            <select id="t-tipo" onchange="atualizarOpcoesOrigem()">
+              <option value="despesa">Despesa (Gasto)</option>
+              <option value="receita">Receita (Entrada)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Descrição</label>
+            <input type="text" id="t-desc" placeholder="Ex: Lanche, Roupas, Luz" required>
+          </div>
+          <div class="form-group">
+            <label>Valor (R$)</label>
+            <input type="number" step="0.01" id="t-valor" placeholder="0.00" required>
+          </div>
+          <div class="form-group">
+            <label>Carteira Utilizada</label>
+            <select id="t-carteira">
+              <option value="principal">Conta Principal (Salário/Bolsa)</option>
+              <option value="va">Vale-Alimentação (VA)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Método de Pagamento</label>
+            <select id="t-metodo">
+              <option value="pix">Pix</option>
+              <option value="debito">Débito</option>
+              <option value="credito">Crédito</option>
+              <option value="dinheiro">Dinheiro</option>
+              <option value="va">Cartão VA</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Origem do Dinheiro</label>
+            <select id="t-origem">
+              <option value="salario">Salário (R$ 2.600,00)</option>
+              <option value="bolsa">Bolsa (R$ 913,00)</option>
+              <option value="outro">Outro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Categoria</label>
+            <select id="t-categoria">
+              <option value="fixas">Despesas Fixas</option>
+              <option value="lazer">Lazer & Compras Pessoais</option>
+              <option value="cao">Gastos Cão (Cinna)</option>
+              <option value="reserva">Reserva</option>
+              <option value="mercado">Mercado/Alimentação</option>
+            </select>
+          </div>
+          <button type="submit" class="btn-submit">Salvar Registro ✨</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3>📋 Histórico Recente</h3>
+        <div id="lista-transacoes"></div>
+      </div>
+    </div>
+
+    <!-- MERCADO -->
+    <div id="tab-mercado" class="tab-content">
+      <div class="card">
+        <h3>🛒 Lista de Mercado (Snorlax)</h3>
+        <form id="form-item-mercado" style="display: flex; gap: 8px; margin-bottom: 10px;">
+          <input type="text" id="m-item" placeholder="Item" style="flex:2;" required>
+          <input type="number" step="0.01" id="m-preco" placeholder="R$" style="flex:1;" required>
+          <button type="submit" class="btn-submit" style="width: auto; margin:0; padding: 0 15px;">+</button>
+        </form>
+        <div id="lista-mercado"></div>
+        <hr style="margin: 10px 0; border: none; border-top: 1px dashed #ccc;">
+        <div style="display: flex; justify-content: space-between; font-weight: bold;">
+          <span>Total Estimado:</span>
+          <span id="disp-total-mercado">R$ 0,00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONFIGURAÇÕES -->
+    <div id="tab-config" class="tab-content">
+      <div class="card">
+        <h3>⚙️ Dados Iniciais & Reset</h3>
+        <button class="btn-submit" onclick="carregarDadosDemonstracao()" style="background: var(--accent-blue); color: #2c5282; margin-bottom: 10px;">
+          Carregar Dados Padrão do Briefing
+        </button>
+        <button class="btn-submit" onclick="limparDados()" style="background: #fecdd3; color: #9f1239;">
+          Apagar Todos os Dados
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- NAVEGAÇÃO -->
+  <div class="nav-bar">
+    <div class="nav-item active" onclick="switchTab('dashboard', this)">
+      <span>🏠</span> Início
+    </div>
+    <div class="nav-item" onclick="switchTab('transacoes', this)">
+      <span>💸</span> Transações
+    </div>
+    <div class="nav-item" onclick="switchTab('mercado', this)">
+      <span>🛒</span> Mercado
+    </div>
+    <div class="nav-item" onclick="switchTab('config', this)">
+      <span>⚙️</span> Ajustes
+    </div>
+  </div>
+
+  <script>
+    // ESTADO DA APLICAÇÃO (Valores em Centavos)
+    let state = {
+      saldoLivre: 0,
+      saldoVA: 0,
+      reserva: 0,
+      gastoLazer: 0,
+      transacoes: [],
+      itensMercado: []
+    };
+
+    function init() {
+      const saved = localStorage.getItem('poke_finance_db');
+      if (saved) {
+        state = JSON.parse(saved);
+      } else {
+        carregarDadosDemonstracao();
+      }
+      render();
+    }
+
+    function save() {
+      try { localStorage.setItem('poke_finance_db', JSON.stringify(state)); }
+      catch (err) { alert("Não foi possível salvar neste navegador. Exporte/anote seus dados antes de fechar."); }
+      render();
+    }
+
+    function formatMoney(centavos) {
+      return (centavos / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    function switchTab(tabId, el) {
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      document.getElementById('tab-' + tabId).classList.add('active');
+      if (el) el.classList.add('active');
+    }
+
+    function carregarDadosDemonstracao() {
+      state = {
+        saldoLivre: 351300, // R$ 3.513,00 (2600 + 913)
+        saldoVA: 120000,    // R$ 1.200,00
+        reserva: 40000,     // R$ 400,00
+        gastoLazer: 0,
+        transacoes: [
+          { id: 1, desc: 'Salário', valor: 260000, tipo: 'receita', carteira: 'principal', cat: 'salario' },
+          { id: 2, desc: 'Bolsa', valor: 91300, tipo: 'receita', carteira: 'principal', cat: 'bolsa' },
+          { id: 3, desc: 'Carga VA', valor: 120000, tipo: 'receita', carteira: 'va', cat: 'va' }
+        ],
+        itensMercado: []
+      };
+      save();
+    }
+
+    function limparDados() {
+      if (confirm("Tens a certeza que desejas apagar todos os dados?")) {
+        localStorage.removeItem('poke_finance_db');
+        state = { saldoLivre: 0, saldoVA: 0, reserva: 0, gastoLazer: 0, transacoes: [], itensMercado: [] };
+        render();
+      }
+    }
+
+    document.getElementById('form-transacao').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const tipo = document.getElementById('t-tipo').value;
+      const desc = document.getElementById('t-desc').value;
+      const valorDigitado = Number(document.getElementById('t-valor').value);
+      if (!Number.isFinite(valorDigitado) || valorDigitado <= 0) { alert("Informe um valor maior que zero."); return; }
+      const valorCentavos = Math.round(valorDigitado * 100);
+      const carteira = document.getElementById('t-carteira').value;
+      const cat = document.getElementById('t-categoria').value;
+
+      // Validação VA
+      if (carteira === 'va' && cat !== 'mercado') {
+        alert("Aviso: O Saldo de VA deve ser utilizado preferencialmente para alimentação/mercado!");
+      }
+
+      if (tipo === 'despesa') {
+        const saldoAtual = carteira === 'va' ? state.saldoVA : state.saldoLivre;
+        if (valorCentavos > saldoAtual) { alert("Esse gasto é maior que o saldo disponível nessa carteira."); return; }
+        if (carteira === 'va') {
+          state.saldoVA -= valorCentavos;
+        } else {
+          state.saldoLivre -= valorCentavos;
+        }
+        if (cat === 'lazer') state.gastoLazer += valorCentavos;
+        if (cat === 'reserva') state.reserva += valorCentavos;
+      } else {
+        if (carteira === 'va') {
+          state.saldoVA += valorCentavos;
+        } else {
+          state.saldoLivre += valorCentavos;
+        }
+      }
+
+      state.transacoes.unshift({ id: Date.now(), desc, valor: valorCentavos, tipo, carteira, cat });
+      document.getElementById('form-transacao').reset();
+      save();
+    });
+
+    document.getElementById('form-item-mercado').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const desc = document.getElementById('m-item').value;
+      const precoDigitado = Number(document.getElementById('m-preco').value);
+      if (!Number.isFinite(precoDigitado) || precoDigitado <= 0) { alert("Informe um preço maior que zero."); return; }
+      const preco = Math.round(precoDigitado * 100);
+      state.itensMercado.push({ id: Date.now(), desc, preco, comprada: false });
+      document.getElementById('form-item-mercado').reset();
+      save();
+    });
+
+    function toggleMercado(id) {
+      const item = state.itensMercado.find(i => i.id === id);
+      if (item) item.comprada = !item.comprada;
+      save();
+    }
+
+    function render() {
+      document.getElementById('disp-saldo-livre').innerText = formatMoney(state.saldoLivre);
+      document.getElementById('disp-saldo-va').innerText = formatMoney(state.saldoVA);
+      document.getElementById('disp-lazer-gasto').innerText = formatMoney(state.gastoLazer);
+      document.getElementById('disp-reserva').innerText = formatMoney(state.reserva);
+
+      // Progresso Lazer
+      const percLazer = Math.min(100, Math.round((state.gastoLazer / 84900) * 100));
+      document.getElementById('prog-lazer').style.width = percLazer + '%';
+
+      // Histórico
+      const histEl = document.getElementById('lista-transacoes');
+      histEl.innerHTML = '';
+      state.transacoes.slice(0, 5).forEach(t => {
+        const div = document.createElement('div');
+        div.className = 'list-item';
+        const descricao = document.createElement('span');
+        descricao.textContent = `${t.desc} (${t.carteira.toUpperCase()})`;
+        const valor = document.createElement('b');
+        valor.style.color = t.tipo === 'despesa' ? '#e11d48' : '#16a34a';
+        valor.textContent = `${t.tipo === 'despesa' ? '-' : '+'}${formatMoney(t.valor)}`;
+        div.append(descricao, valor);
+        histEl.appendChild(div);
+      });
+
+      // Mercado
+      const mercEl = document.getElementById('lista-mercado');
+      mercEl.innerHTML = '';
+      let totalMercado = 0;
+      state.itensMercado.forEach(m => {
+        totalMercado += m.preco;
+        const div = document.createElement('div');
+        div.className = 'chk-item';
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = Boolean(m.comprada);
+        checkbox.addEventListener('change', () => toggleMercado(m.id));
+        const label = document.createElement('span');
+        label.textContent = `${m.desc} - ${formatMoney(m.preco)}`;
+        if (m.comprada) label.style.cssText = 'text-decoration: line-through; color: #aaa;';
+        div.append(checkbox, label);
+        mercEl.appendChild(div);
+      });
+      document.getElementById('disp-total-mercado').innerText = formatMoney(totalMercado);
+    }
+
+    init();
+    if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+    }
+  </script>
+</body>
+</html>
